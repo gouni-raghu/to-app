@@ -1,8 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-tasks = []
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+tasks = [
+    {"id": 1, "title": "Learn FastAPI", "description": "", "status": "pending"},
+    {"id": 2, "title": "Practice coding", "description": "", "status": "done"},
+    {"id": 3, "title": "Build Todo App", "description": "", "status": "pending"}
+]
 
 @app.get("/")
 def home():
