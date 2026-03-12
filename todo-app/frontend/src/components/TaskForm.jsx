@@ -5,18 +5,21 @@ function TaskForm({ onTaskAdded }) {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [date, setDate] = useState("");
 
     const handleSubmit = async () => {
 
         const task = {
             title: title,
-            description: description
+            description: description,
+            date: date
         };
 
         await createTask(task);
 
         setTitle("");
         setDescription("");
+        setDate("");
 
         if (onTaskAdded) {
             onTaskAdded();
@@ -43,6 +46,14 @@ function TaskForm({ onTaskAdded }) {
                 placeholder="Task Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+            />
+
+            <br /><br />
+
+            <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
             />
 
             <br /><br />

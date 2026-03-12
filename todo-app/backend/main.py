@@ -46,6 +46,7 @@ def update_task(task_id: int, updated_task: dict):
         if task["id"] == task_id:
             task["title"] = updated_task.get("title", task["title"])
             task["description"] = updated_task.get("description", task["description"])
+            task["date"] = updated_task.get("date", task.get("date", ""))
             return {"message": "Task updated successfully", "task": task}
     return {"error": "Task not found"}
 

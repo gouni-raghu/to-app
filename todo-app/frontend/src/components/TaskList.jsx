@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getTasks, deleteTask, markTaskDone, updateTask } from "../services/taskService";
 
-function TaskList() {
+function TaskList({ reloadTasks }) {
 
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         fetchTasks();
-    }, []);
+    }, [reloadTasks]);
 
     const fetchTasks = async () => {
         const data = await getTasks();
@@ -48,7 +48,7 @@ function TaskList() {
                 {tasks.map((task) => (
                     <li key={task.id}>
 
-                        {task.title} - {task.status}
+                        {task.title} - {task.status} {task.date && `(${task.date})`}
 
                         <button onClick={() => handleDone(task.id)}>
                             Done
