@@ -39,33 +39,67 @@ function TaskList({ reloadTasks }) {
         fetchTasks();
     };
 
+    // Helper to get the correct badge class
+    const getBadgeClass = (category) => {
+        const cat = (category || 'general').toLowerCase();
+        if (cat === 'work') return 'badge-work';
+        if (cat === 'personal') return 'badge-personal';
+        if (cat === 'urgent') return 'badge-urgent';
+        return 'badge-general';
+    };
+
     return (
-        <div>
+        <div className="task-container">
+            {tasks.length === 0 ? (
+                <div className="glass" style={{ textAlign: 'center', padding: '3rem' }}>
+                    <p style={{ color: 'var(--text-muted)' }}>No tasks found. Create one to get started!</p>
+                </div>
+            ) : (
+                <div className="task-grid">
+                    {tasks.map((task) => (
+                        <div key={task.id} className="glass task-card">
+                            <div className="task-header">
+                                <span className={`badge ${getBadgeClass(task.category)}`}>
+                                    {task.category || 'General'}
+                                </span>
+                                <h3>{task.title}</h3>
+                            </div>
 
-            <h3>Task List</h3>
+                            <p>{task.description || "No description provided."}</p>
 
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task.id}>
+                            <div className="task-footer">
+                                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                    {task.date ? `📅 ${task.date}` : "No date"}
+                                </span>
 
-                        {task.title} - {task.status} {task.date && `(${task.date})`}
-
-                        <button onClick={() => handleDone(task.id)}>
-                            Done
-                        </button>
-
-                        <button onClick={() => handleEdit(task)}>
-                            Edit
-                        </button>
-
-                        <button onClick={() => handleDelete(task.id)}>
-                            Delete
-                        </button>
-
-                    </li>
-                ))}
-            </ul>
-
+                                <div className="task-actions">
+                                    <button
+                                        className="btn-done"
+                                        onClick={() => handleDone(task.id)}
+                                        title="Mark as Done"
+                                    >
+                                        ✓
+                                    </button>
+                                    <button
+                                        className="btn-edit"
+                                        onClick={() => handleEdit(task)}
+                                        title="Edit Task"
+                                    >
+                                        ✎
+                                    </button>
+                                    <button
+                                        className="btn-delete"
+                                        onClick={() => handleDelete(task.id)}
+                                        title="Delete Task"
+                                    >
+                                        🗑
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
